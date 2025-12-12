@@ -1,0 +1,44 @@
+Q-Learning Algorithm Flow
+
+1. Initialization
+   - Create the FrozenLake-v1 environment (is_slippery=True).
+   - Initialize Q-table with zeros (States x Actions).
+   - Set hyperparameters:
+     - Learning Rate (alpha)
+     - Discount Factor (gamma)
+     - Exploration Rate (epsilon)
+
+2. Training Loop (for each episode)
+   a. Reset Environment
+      - Get initial state S.
+      - Set Done = False.
+
+   b. Episode Loop (while not Done)
+      i.   Choose Action A (Epsilon-Greedy)
+           - With probability epsilon, choose a random action.
+           - Otherwise, choose action with max Q-value for S: argmax(Q[S]).
+
+      ii.  Take Action A
+           - Observe Reward R and Next State S'.
+           - Check if episode is terminated/truncated.
+
+      iii. Update Q-Value (TD Update)
+           - Find max Q-value for next state: best_next_Q = max(Q[S']).
+           - Calculate Target: Target = R + gamma * best_next_Q.
+           - Calculate Error: Error = Target - Q[S, A].
+           - Update: Q[S, A] = Q[S, A] + alpha * Error.
+
+      iv.  Transition
+           - S <- S'.
+
+   c. Decay Epsilon
+      - Reduce epsilon to decrease exploration over time.
+
+3. Output
+   - Save the trained Q-table to 'q_table.pkl'.
+   - Plot the learning curve (Rewards vs Episodes).
+
+4. Evaluation (Separate Step)
+   - Load 'q_table.pkl'.
+   - Run agent greedily (choose max Q-value).
+   - Measure success rate (average reward).
